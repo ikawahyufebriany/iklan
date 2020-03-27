@@ -14,20 +14,21 @@
         android:layout_marginStart="1dp"
         android:layout_marginEnd="1dp"
         android:text="Login"
-        android:onClick="handleLogin"
         app:layout_constraintBottom_toTopOf="@+id/bntToRegister"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        android:onClick="handleLogin"/>
 
     <Button
         android:id="@+id/bntToRegister"
         android:layout_width="match_parent"
         android:layout_height="75dp"
         android:text="Register"
-        android:onClick="registerMain"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        android:onClick="gotoRegist"/>
 
     <EditText
         android:id="@+id/edtEmail"

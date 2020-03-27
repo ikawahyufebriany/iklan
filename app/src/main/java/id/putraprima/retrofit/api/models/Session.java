@@ -2,7 +2,8 @@ package id.putraprima.retrofit.api.models;
 
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.preference.PreferenceManager;
+
+import androidx.preference.PreferenceManager;
 
 public class Session {
     private static final String APP_KEY = "key_app";

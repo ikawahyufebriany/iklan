@@ -1,20 +1,19 @@
 package id.putraprima.retrofit.api.models;
 
-public class Profile {
-    private int id;
-    private String name,email;
+public class ProfileResponse {
+    public String id,name,email;
 
-    public Profile(int id, String name, String email) {
+    public ProfileResponse(String id, String name, String email) {
         this.id = id;
         this.name = name;
         this.email = email;
     }
 
-    public int getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(String id) {
         this.id = id;
     }
 

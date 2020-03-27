@@ -2,12 +2,12 @@ package id.putraprima.retrofit.api.models;
 
 public class LoginResponse {
     public String token, token_type;
-    public int expires_in;
+    public int expiresIn;
 
-    public LoginResponse(String token, String token_type, int expires_in) {
+    public LoginResponse(String token, String token_type, int expiresIn) {
         this.token = token;
         this.token_type = token_type;
-        this.expires_in = expires_in;
+        this.expiresIn = expiresIn;
     }
 
     public String getToken() {
@@ -18,19 +18,19 @@ public class LoginResponse {
         this.token = token;
     }
 
-    public String getToken_type() {
+    public String getTokenType() {
         return token_type;
     }
 
-    public void setToken_type(String token_type) {
+    public void setTokenType(String token_type) {
         this.token_type = token_type;
     }
 
-    public int getExpires_in() {
-        return expires_in;
+    public int getExpiresIn() {
+        return expiresIn;
     }
 
-    public void setExpires_in(int expires_in) {
-        this.expires_in = expires_in;
+    public void setExpiresIn(int expiresIn) {
+        this.expiresIn = expiresIn;
     }
 }

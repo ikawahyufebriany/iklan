@@ -7,56 +7,61 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.Toast;
+
+import com.google.android.material.snackbar.Snackbar;
 
 import id.putraprima.retrofit.R;
 import id.putraprima.retrofit.api.helper.ServiceGenerator;
 import id.putraprima.retrofit.api.models.LoginRequest;
 import id.putraprima.retrofit.api.models.LoginResponse;
+import id.putraprima.retrofit.api.models.Session;
 import id.putraprima.retrofit.api.services.ApiInterface;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
 public class MainActivity extends AppCompatActivity {
+    private EditText emailText, passText;
+    private View rView;
+    private TextView appName, appVer;
+    private Session session;
+    public Session getSession() {
+        return SplashActivity.session;
+    }
 
-    TextView name,version;
-    EditText email,pass;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        Bundle extras = getIntent().getExtras();
-        name = findViewById(R.id.mainTxtAppName);
-        version = findViewById(R.id.mainTxtAppVersion);
-        email = findViewById(R.id.edtEmail);
-        pass = findViewById(R.id.edtPassword);
+        rView = findViewById(android.R.id.content).getRootView();
+        emailText = findViewById(R.id.edtEmail);
+        passText = findViewById(R.id.edtPassword);
+        appName = findViewById(R.id.mainTxtAppName);
+        appVer = findViewById(R.id.mainTxtAppVersion);
 
-        name.setText(extras.getString("APP_KEY"));
-        version.setText(extras.getString("VER_KEY"));
-
+        session = getSession();
+        appName.setText(session.getApp());
+        appVer.setText(session.getVersion());
     }
 
-    private void login() {
+    private void login(){
         ApiInterface service = ServiceGenerator.createService(ApiInterface.class);
-        Call<LoginResponse> call = service.login(new LoginRequest(email.getText().toString(), pass.getText().toString()));
+        Call<LoginResponse> call = service.doLogin(new LoginRequest(emailText.getText().toString(), passText.getText().toString()));
         call.enqueue(new Callback<LoginResponse>() {
             @Override
             public void onResponse(Call<LoginResponse> call, Response<LoginResponse> response) {
-                Toast.makeText(MainActivity.this, response.body().getToken(), Toast.LENGTH_SHORT).show();
-
-                Intent intent = new Intent(MainActivity.this, ProfileActivity.class);
-
-                intent.putExtra("TOKEN",response.body().token);
-                intent.putExtra("TOKEN_TYPE",response.body().token_type);
-                startActivity(intent);
+                new LoginResponse(response.body().token, response.body().token_type, response.body().expiresIn);
+                setResponse(rView, "Berhasil");
+                Intent i = new Intent(MainActivity.this, ProfileActivity.class);
+                i.putExtra("token", response.body().token_type + " " + response.body().token);
+                startActivity(i);
             }
 
             @Override
             public void onFailure(Call<LoginResponse> call, Throwable t) {
-                Toast.makeText(MainActivity.this, "Gagal Koneksi Ke Server", Toast.LENGTH_SHORT).show();
+                setResponse(rView, "Login Gagal");
             }
         });
     }
@@ -65,7 +70,11 @@ public class MainActivity extends AppCompatActivity {
         login();
     }
 
-    public void registerMain(View view) {
-        startActivity(new Intent(this,RegisterActivity.class));
+    public void setResponse(View view, String message){
+        Snackbar.make(view, message, Snackbar.LENGTH_LONG).show();
+    }
+
+    public void gotoRegist(View view) {
+        startActivity(new Intent(MainActivity.this, RegisterActivity.class));
     }
 }
