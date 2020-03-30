@@ -1,17 +1,20 @@
 package id.putraprima.retrofit.ui;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.Toast;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.material.snackbar.Snackbar;
 
 import id.putraprima.retrofit.R;
 import id.putraprima.retrofit.api.helper.ServiceGenerator;
+import id.putraprima.retrofit.api.models.ApiError;
 import id.putraprima.retrofit.api.models.Data;
+import id.putraprima.retrofit.api.models.ErrorUtils;
 import id.putraprima.retrofit.api.models.ProfileRequest;
 import id.putraprima.retrofit.api.models.ProfileResponse;
 import id.putraprima.retrofit.api.services.ApiInterface;
@@ -56,7 +59,18 @@ public class UpdateProfileActivity extends AppCompatActivity {
         call.enqueue(new Callback<Data<ProfileResponse>>() {
             @Override
             public void onResponse(Call<Data<ProfileResponse>> call, Response<Data<ProfileResponse>> response) {
-                setResponse(rView, "Update Data Berhasil! :)");
+                if (response.isSuccessful()) {
+                    setResponse(rView, "Update Data Berhasil! :)");
+                }else{
+                    ApiError error = ErrorUtils.parseError(response);
+                    if(txtName.getText().toString().isEmpty()){
+                        txtName.setError(error.getError().getName().get(0));
+                    } else if(txtEmail.getText().toString().isEmpty()){
+                        txtEmail.setError(error.getError().getEmail().get(0));
+                    } else {
+                        Toast.makeText(UpdateProfileActivity.this, error.getError().getEmail().get(0), Toast.LENGTH_SHORT).show();
+                    }
+                }
             }
 
             @Override

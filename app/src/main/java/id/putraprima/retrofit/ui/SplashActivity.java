@@ -1,15 +1,13 @@
 package id.putraprima.retrofit.ui;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.google.android.material.snackbar.BaseTransientBottomBar;
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.google.android.material.snackbar.Snackbar;
 
 import id.putraprima.retrofit.R;
@@ -61,12 +59,12 @@ public class SplashActivity extends AppCompatActivity {
                 connec.getNetworkInfo(0).getState() == android.net.NetworkInfo.State.CONNECTING ||
                 connec.getNetworkInfo(1).getState() == android.net.NetworkInfo.State.CONNECTING ||
                 connec.getNetworkInfo(1).getState() == android.net.NetworkInfo.State.CONNECTED ) {
-            setResponse(rView, "Terkoneksi ke Internet :)");
+            setResponse(rView, "Internet terkoneksi!");
             return true;
         } else if (
                 connec.getNetworkInfo(0).getState() == android.net.NetworkInfo.State.DISCONNECTED ||
                         connec.getNetworkInfo(1).getState() == android.net.NetworkInfo.State.DISCONNECTED  ) {
-            setResponse(rView, "Internet Tidak Terjangkau :(");
+            setResponse(rView, "Tidak ada koneksi internet!");
             return false;
         }
         return false;

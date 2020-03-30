@@ -1,16 +1,18 @@
 package id.putraprima.retrofit.ui;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
 
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.google.android.material.snackbar.Snackbar;
 
 import id.putraprima.retrofit.R;
 import id.putraprima.retrofit.api.helper.ServiceGenerator;
+import id.putraprima.retrofit.api.models.ApiError;
+import id.putraprima.retrofit.api.models.ErrorUtils;
 import id.putraprima.retrofit.api.models.RegisterRequest;
 import id.putraprima.retrofit.api.models.RegisterResponse;
 import id.putraprima.retrofit.api.services.ApiInterface;
@@ -40,8 +42,28 @@ public class RegisterActivity extends AppCompatActivity {
         call.enqueue(new Callback<RegisterResponse>() {
             @Override
             public void onResponse(Call<RegisterResponse> call, Response<RegisterResponse> response) {
-                setResponse(rView, "Daftar Berhasil");
-                startActivity(new Intent(RegisterActivity.this, MainActivity.class));
+                if (response.isSuccessful()) {
+                    setResponse(rView, "Daftar Berhasil");
+                    startActivity(new Intent(RegisterActivity.this, MainActivity.class));
+
+                } else {
+                    ApiError error = ErrorUtils.parseError(response);
+                    String emailPattern = "[a-zA-Z0-9._-]+@[a-z]+\\.+[a-z]+";
+                    if(txtName.getText().toString().isEmpty()){
+                        txtName.setError(error.getError().getName().get(0));
+                    } else if(txtEmail.getText().toString().isEmpty()){
+                        txtEmail.setError(error.getError().getEmail().get(0));
+                    } else if(!txtEmail.getText().toString().matches(emailPattern)) {
+                        txtEmail.setError(error.getError().getEmail().get(0));
+                    }
+                    else if(txtPass.getText().toString().isEmpty()){
+                        txtPass.setError(error.getError().getPassword().get(0));
+                    } else if(txtPass.getText().toString().length()<8){
+                        txtPass.setError(error.getError().getPassword().get(0));
+                    } else if(!txtConPass.getText().toString().equals(txtConPass)){
+                        txtConPass.setError(error.getError().getPassword().get(0));
+                    }
+                }
             }
 
             @Override

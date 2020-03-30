@@ -1,17 +1,20 @@
 package id.putraprima.retrofit.ui;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.material.snackbar.Snackbar;
 
 import id.putraprima.retrofit.R;
 import id.putraprima.retrofit.api.helper.ServiceGenerator;
+import id.putraprima.retrofit.api.models.ApiError;
+import id.putraprima.retrofit.api.models.ErrorUtils;
 import id.putraprima.retrofit.api.models.LoginRequest;
 import id.putraprima.retrofit.api.models.LoginResponse;
 import id.putraprima.retrofit.api.models.Session;
@@ -52,12 +55,24 @@ public class MainActivity extends AppCompatActivity {
         call.enqueue(new Callback<LoginResponse>() {
             @Override
             public void onResponse(Call<LoginResponse> call, Response<LoginResponse> response) {
-                new LoginResponse(response.body().token, response.body().token_type, response.body().expiresIn);
-                setResponse(rView, "Berhasil");
-                Intent i = new Intent(MainActivity.this, ProfileActivity.class);
-                i.putExtra("token", response.body().token_type + " " + response.body().token);
-                startActivity(i);
-            }
+                if (response.isSuccessful()) {
+                    new LoginResponse(response.body().token, response.body().token_type, response.body().expiresIn);
+                    setResponse(rView, "Berhasil");
+                    Intent i = new Intent(MainActivity.this, ProfileActivity.class);
+                    i.putExtra("token", response.body().token_type + " " + response.body().token);
+                    startActivity(i);
+                    }else{
+                    ApiError error = ErrorUtils.parseError(response);
+                    if(emailText.getText().toString().isEmpty()){
+                        emailText.setError(error.getError().getEmail().get(0));
+                    } else if(passText.getText().toString().isEmpty()){
+                        passText.setError(error.getError().getPassword().get(0));
+                    } else {
+                        Toast.makeText(MainActivity.this, error.getError().getEmail().get(0), Toast.LENGTH_SHORT).show();
+                    }
+                    }
+                }
+
 
             @Override
             public void onFailure(Call<LoginResponse> call, Throwable t) {
