@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -55,24 +54,19 @@ public class MainActivity extends AppCompatActivity {
         call.enqueue(new Callback<LoginResponse>() {
             @Override
             public void onResponse(Call<LoginResponse> call, Response<LoginResponse> response) {
-                if (response.isSuccessful()) {
+                if (response.isSuccessful()){
                     new LoginResponse(response.body().token, response.body().token_type, response.body().expiresIn);
                     setResponse(rView, "Berhasil");
                     Intent i = new Intent(MainActivity.this, ProfileActivity.class);
                     i.putExtra("token", response.body().token_type + " " + response.body().token);
                     startActivity(i);
-                    }else{
+                }else{
                     ApiError error = ErrorUtils.parseError(response);
-                    if(emailText.getText().toString().isEmpty()){
-                        emailText.setError(error.getError().getEmail().get(0));
-                    } else if(passText.getText().toString().isEmpty()){
-                        passText.setError(error.getError().getPassword().get(0));
-                    } else {
-                        Toast.makeText(MainActivity.this, error.getError().getEmail().get(0), Toast.LENGTH_SHORT).show();
-                    }
+                    for (int i = 0; i < error.getError().getEmail().size(); i++){
+                        setResponse(rView, error.getError().getEmail().get(i));
                     }
                 }
-
+            }
 
             @Override
             public void onFailure(Call<LoginResponse> call, Throwable t) {

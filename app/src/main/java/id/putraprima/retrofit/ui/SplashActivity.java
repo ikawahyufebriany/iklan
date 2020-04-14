@@ -59,12 +59,12 @@ public class SplashActivity extends AppCompatActivity {
                 connec.getNetworkInfo(0).getState() == android.net.NetworkInfo.State.CONNECTING ||
                 connec.getNetworkInfo(1).getState() == android.net.NetworkInfo.State.CONNECTING ||
                 connec.getNetworkInfo(1).getState() == android.net.NetworkInfo.State.CONNECTED ) {
-            setResponse(rView, "Internet terkoneksi!");
+            setResponse(rView, "Internet connected");
             return true;
         } else if (
                 connec.getNetworkInfo(0).getState() == android.net.NetworkInfo.State.DISCONNECTED ||
                         connec.getNetworkInfo(1).getState() == android.net.NetworkInfo.State.DISCONNECTED  ) {
-            setResponse(rView, "Tidak ada koneksi internet!");
+            setResponse(rView, "No internet");
             return false;
         }
         return false;

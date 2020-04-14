@@ -34,8 +34,7 @@ dependencies {
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'androidx.test.ext:junit:1.1.1'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
-    //preference
-    implementation 'androidx.preference:preference:1.1.0'
+
     //retrofit
     implementation 'com.squareup.retrofit2:retrofit:2.7.2'
     implementation 'com.squareup.retrofit2:converter-gson:2.6.2'
@@ -44,4 +43,17 @@ dependencies {
     implementation 'androidx.recyclerview:recyclerview:1.1.0'
     //material design
     implementation "com.google.android.material:material:1.2.0-alpha05"
+    //implementation 'com.google.android.gms:play-services-ads:18.1.1'
+    implementation 'androidx.cardview:cardview:1.0.0'
+    implementation 'de.hdodenhof:circleimageview:3.0.0'
+    implementation 'com.github.bumptech.glide:glide:4.9.0'
+    implementation 'com.squareup.picasso:picasso:2.71828'
+    implementation 'com.mikepenz:fastadapter:3.3.1'
+    implementation 'com.mikepenz:fastadapter-commons:3.3.1'
+    implementation 'androidx.preference:preference:1.1.0'
+    implementation 'com.github.ybq:Android-SpinKit:1.4.0'
+}
+dependencies {
+    // Dexter runtime permissions
+    implementation 'com.karumi:dexter:4.2.0'
 }

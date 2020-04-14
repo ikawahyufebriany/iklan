@@ -1,12 +1,13 @@
 package id.putraprima.retrofit.ui;
 
+import androidx.appcompat.app.AppCompatActivity;
+
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
-
-import androidx.appcompat.app.AppCompatActivity;
 
 import id.putraprima.retrofit.R;
 import id.putraprima.retrofit.api.helper.ServiceGenerator;
@@ -42,10 +43,14 @@ public class ProfileActivity extends AppCompatActivity {
         call.enqueue(new Callback<Data<ProfileResponse>>() {
             @Override
             public void onResponse(Call<Data<ProfileResponse>> call, Response<Data<ProfileResponse>> response) {
-                txtName.setText(response.body().data.name);
-                txtEmail.setText(response.body().data.email);
-                nama = response.body().data.name;
-                email = response.body().data.email;
+                if (response.code() == 302){
+                    System.out.println("halo");
+                }else{
+                    txtName.setText(response.body().data.name);
+                    txtEmail.setText(response.body().data.email);
+                    nama = response.body().data.name;
+                    email = response.body().data.email;
+                }
             }
 
             @Override
@@ -70,6 +75,18 @@ public class ProfileActivity extends AppCompatActivity {
 
     public void handleUpdatePassActivity(View view) {
         Intent i = new Intent(ProfileActivity.this, UpdatePasswordActivity.class);
+        i.putExtra("token", token);
+        startActivity(i);
+    }
+
+    public void handleResepActivity(View view) {
+        Intent i = new Intent(ProfileActivity.this, RecipeActivity.class);
+//        i.putExtra("token", token);
+        startActivity(i);
+    }
+
+    public void handleNewRecipeAct(View view) {
+        Intent i = new Intent(ProfileActivity.this, NewRecipeActivity.class);
         i.putExtra("token", token);
         startActivity(i);
     }
