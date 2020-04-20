@@ -5,9 +5,9 @@
 
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.CAMERA"/>
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
     <application
         android:allowBackup="true"
@@ -16,12 +16,18 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".ui.RecipeActivity"></activity>
-        <activity android:name=".ui.UpdatePasswordActivity"></activity>
+        <activity android:name=".ui.MyActivity"></activity>
+        <!-- Sample AdMob App ID: ca-app-pub-3940256099942544~3347511713 -->
+        <meta-data
+            android:name="com.google.android.gms.ads.APPLICATION_ID"
+            android:value="ca-app-pub-8331720295209618~5828904695" />
+        <activity android:name=".ui.RecipeActivity" />
+        <activity android:name=".ui.UpdatePasswordActivity" />
         <activity android:name=".ui.UpdateProfileActivity" />
         <activity android:name=".ui.RegisterActivity" />
         <activity android:name=".ui.ProfileActivity" />
-        <activity android:name=".ui.NewRecipeActivity"
+        <activity
+            android:name=".ui.NewRecipeActivity"
             tools:ignore="DuplicateActivity" />
         <activity android:name=".ui.SplashActivity">
             <intent-filter>
